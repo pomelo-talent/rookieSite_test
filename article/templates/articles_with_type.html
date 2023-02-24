@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ article_type.type_name }}
+{% endblock %}
+
+{% block nav_article_active %}
+    active
+{% endblock %}
+
+{% load static %}
+{% block header_extends %}
+    <link rel="stylesheet" href="{% static 'article.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <h3> {{ article_type.type_name }} </h3>
+            <hr>
+            {% for article in articles %}
+                <a href="{% url 'article_detail' article.pk %}" class="link-dark">
+                    <h3>{{ article.title }}</h3>
+                </a>
+                <p>{{ article.content|striptags|truncatechars_html:30 }}</p>
+            {% empty %}
+                <p>-- 暂无内容, 敬请期待 --</p>    
+            {% endfor %} 
+            <p>一共有{{ articles|length }}篇博客</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

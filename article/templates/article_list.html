@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Rookie Player--新手玩家
+{% endblock %}
+
+{% block nav_article_active %}
+    active
+{% endblock %}
+
+{% load static %}
+{% block header_extends %}
+    <link rel="stylesheet" href="{% static 'article.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% for article in articles %}
+                    <a href="{% url 'article_detail' article.pk %}" class="link-dark" >
+                        <h3>{{article.title}}</h3>
+                    </a>
+                    <p>{{ article.content|striptags|truncatechars_html:150 }}</p>
+                {% empty %}
+                    <p>-- 暂无内容, 敬请期待 --</p>    
+                {% endfor %} 
+                <p>一共有{{ articles|length }}篇博客</p>
+        </div>
+        <div class="col-md-4">
+            <h4>分类</h4>
+            <ul>
+                {% for article_type in article_types %}
+                    <li>
+                        <a href="{% url 'articles_with_type' article_type.pk %}" class="link-dark">{{ article_type.type_name }}</a>
+                    </li>
+                {% empty %}
+                    <li>无分类</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

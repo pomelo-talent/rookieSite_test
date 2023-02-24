@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Rookie Player|搜索
+{% endblock %}
+
+{% block header_extends %}
+{% endblock %}
+
+{% block nav_home_active %}
+    active
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                {% if search_word == '' %}
+                    <h3>您尚未开始搜索。</h3>
+                    <p>您可以尝试输入点什么东西，例如: Welcome</p>
+                {% else %}
+                    <h3>搜索"{{ search_word }}"，找到{{ search_articles_count }}个结果</h3>
+                    <hr>
+                    {% for article in search_articles %}
+                        <a href="{% url 'article_detail' article.pk %}">
+                            <h4>{{ article.title }}</h4>
+                        </a>
+                        <p>{{ article.content | striptags | truncatechars_html:100 }}</p>
+                    {% empty %}
+                        <p>没有找到相关内容</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
